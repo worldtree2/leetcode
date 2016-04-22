@@ -1,2 +1,1 @@
-# minibidder
-This is a leetcode folder
+#This is a leetcode folder
