@@ -1,0 +1,35 @@
+public class Solution {
+    public int search(int[] nums, int target) {
+        if(nums.length==0)return -1;
+        
+        int len = nums.length;
+        int start=0;
+        int end = len-1;
+        int mid = (end-start)/2;
+        while(nums[mid]!=target&&start<=end){                               //We need to find the sorted part of the array.
+            if(nums[mid]>=nums[start]){                                     //In order to do so, we need to see if mid 
+                if(target<nums[mid]&&target>=nums[start]){                  //element is to the left or the right of the
+                    if(target == nums[start])return start;                  //start element.
+                    end = mid-1;                                            //If the mid element is >= start, means its at 
+                }else{                                                      //the left side of the start element.
+                    start = mid+1;                                          //else the mid lement is at the right side.
+                }                                                           //Knowing where the mid element is, when can compare 
+                                                                            //The mid element with the target, see which part the target at.
+            }
+            else{
+                if(target>nums[mid]&&target<=nums[end]){
+                    if(target==nums[end])return end;
+                start = mid+1;
+                }else{
+                end = mid-1;    
+                }
+                
+            }
+            mid = start + (end-start)/2;
+            if(mid>len-1)return -1;
+        }
+       
+       return nums[mid]==target?mid:-1;
+
+    }
+}
