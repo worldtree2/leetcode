@@ -1,6 +1,8 @@
 def partition (left,right,array):
+  
   index = int((right-left)/2+left)
   pivot = array[index]
+  print(index)
   while left<right:
     while left<=right and array[left]<=pivot:
       left+=1
@@ -9,27 +11,34 @@ def partition (left,right,array):
     if left>=right:
       if index <= right:
         array[right],array[index] = array[index],array[right]
+        print(array)
         break
       elif index >= left:
         array[left],array[index] = array[index],array[left]
+        print(array)
         break
 
     array[left],array[right] = array[right],array[left]  
+ 
   return right
 
 
 def quick_sort(left,right,array):
   
   if left<right:
+    print(left,"this is left")
+    print(right,"this is right")
+    print(array)
     splitpoint= partition(left,right,array)
-    print(str(splitpoint)+str(left)+str(right))
+    print(splitpoint,"this is splitpoint")
+    print("")
     quick_sort(left,splitpoint-1,array)
     quick_sort(splitpoint+1,right,array)
 
-  return array
 
 
-alist = [1,2,3,5,6,324,4,6,12,34,1,0]
+
+alist = [2,3,4,2,12,51,0]
 quick_sort(0,len(alist)-1,alist)
 
 print(alist)
