@@ -1,0 +1,17 @@
+import sys
+
+def Trade_Stock (values):
+  if not values:
+    return 0
+  
+  all_time_low = sys.maxsize
+  best_gain = -sys.maxsize-1
+
+  for i in values:
+    all_time_low = min(all_time_low,i)
+    best_gain = max(best_gain,i-all_time_low)  
+  
+  return print(best_gain)
+
+
+Trade_Stock([1,2,3,4,5,0,7,8,9,0,10])
