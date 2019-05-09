@@ -1,0 +1,27 @@
+import sys
+
+
+class Solution:
+    """
+    @param nums: an integer array
+    @param target: An integer
+    @return: the difference between the sum and the target
+    """
+    def twoSumClosest(self, nums, target):
+        # write your code here
+        nums.sort()
+            
+        i,j = 0,len(nums)-1
+        r = sys.maxint
+        while i<j:
+            sum = nums[i] + nums[j]
+            if sum > target:
+                 r = min(sum-target,r)
+                 j-=1
+            elif sum < target:
+                r = min(target-sum,r)
+                i+=1
+            else:
+                return 0
+            
+        return r
