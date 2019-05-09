@@ -1,0 +1,15 @@
+import heapq
+class Solution(object):
+    def kClosest(self, points, K):
+        """
+        :type points: List[List[int]]
+        :type K: int
+        :rtype: List[List[int]]
+        """
+        li = []
+        
+        for i in points:
+            dis = i[0]*i[0] + i[1]*i[1]
+            heapq.heappush(li,(dis,i))
+        
+        return [li[1] for li in heapq.nsmallest(K,li)]
