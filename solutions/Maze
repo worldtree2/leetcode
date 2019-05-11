@@ -1,0 +1,35 @@
+import collections
+
+class Solution:
+	def removeObstacle(numRows,numColumns,lot):
+		map = [[]*numColumns for i in range(numRows)]
+		visit = [[0]*numColumns for i in range(numRows)]
+		for i in range(len(lot)):
+			sub = lot[i]
+			for j in range(len(sub)):
+				map[i][j] = lot[i][j]
+
+		ans = 0
+
+		DIRS = [[1,0],[-1,0],[0,1],[0,-1]]
+		d = collections.deque()
+		d.append([0,0])
+		while d :
+			for i in range(len(d)):
+				curr = d.popleft()
+				x = curr[0]
+				y = curr[1]
+				if x<0 or y<0 or x>=numRows or y >=numColumns or map[x][y]==0 or visit[x][y]:
+					continue
+				visit[x][y] = True
+				if map[x][y] == 9:
+					return ans
+				for dir in DIRS:
+					xx = dir[0] + x
+					yy = dir[1] + y
+					d.append([xx,yy])
+
+		ans+=1
+
+	return -1
+
