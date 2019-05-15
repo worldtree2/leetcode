@@ -5,7 +5,7 @@ def takeSecond(elem):
 
 def twoSumClosest(arr1,arr2,k):
     if arr1 is None or arr2 is None:
-        return null
+        return []
     arr1.sort(key=takeSecond)
     arr2.sort(key=takeSecond)
     print(arr1,arr2)
@@ -25,7 +25,6 @@ def twoSumClosest(arr1,arr2,k):
                 max = sum
                 dict.clear()
                 ans = helper(arr1,arr2,i,j)
-                print(ans,"123")
                 dict[arr2[j][1]]=True
             j+=1
         else:
@@ -42,7 +41,6 @@ def helper(arr1,arr2,a,b):
     for j in range(b+1,len(arr2)):
         if arr2[j][1] == arr2[b][1]:
             l2.append(arr2[j][0])
-    print(l1,l2,"l1,l2")
     for i in l1:
         for j in l2:
             ans.append([i,j])
@@ -50,9 +48,9 @@ def helper(arr1,arr2,a,b):
 
 
 def main():
-    arr1 = [[1,5000],[3,4000],[2,3000],[4,1000],[5,4000]]
-    arr2 = [[1,2000],[3,5000],[2,5000],[4,6000]]
-    k = 9000
+    arr1 = [[1,1000],[2,1000],[3,500]]
+    arr2 = [[1,1000],[2,1500]]
+    k = 2000
     a = twoSumClosest(arr1,arr2,k)
     print(a)
     print("finished")
