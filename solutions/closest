@@ -1,53 +1,62 @@
 import sys
 
+def takeSecond(elem):
+    return elem[1]
 
-	def twoSumClosest(arr1,arr2,k):
-		if arr1 is None or arr2 is None:
-			return null
-		arr1.sort()
-		arr2.sort()
-		max = sys.minint
-		i,j = len(arr1)-1,0
-		ans = []
-		dict = {}
-		while i>=0 and j <= len(arr2)-1:
-			sum = arr[i] + arr[j]
-			if sum>k:
-				continue
-			elif sum>=max:
-				if dict.get(arr[j]) is None:
-					ans.append([i,j])
-				if sum>max:
-					max = sum
-					dict.clear()
-					ans.clear()
-					ans.append([i,j])
-					dup = helper(arr1,arr2,i,j)
-					ans.extend(dup)
-					dict[arr[j]]=True
-		return ans
+def twoSumClosest(arr1,arr2,k):
+    if arr1 is None or arr2 is None:
+        return null
+    arr1.sort(key=takeSecond)
+    arr2.sort(key=takeSecond)
+    print(arr1,arr2)
+    max = -sys.maxint
+    i,j = len(arr1)-1,0
+    ans = []
+    dict = {}
+    while i>=0 and j <= len(arr2)-1:
+        sum = arr1[i][1] + arr2[j][1]
+        print(i,j)
+        if sum>k:
+            i-=1
+        elif sum>=max:
+            if dict.get(arr2[j][1]) is None:
+                ans.append([arr1[i][0],arr2[j][0]])
+            if sum>max:
+                max = sum
+                dict.clear()
+                ans = helper(arr1,arr2,i,j)
+                print(ans,"123")
+                dict[arr2[j][1]]=True
+            j+=1
+        else:
+            j+=1
+    return ans
 	
 
 
-	def helper(arr1,arr2,a,b):
-	    l1,l2,ans=[],[],[]
-	    for i in range(a-1,-1,-1):
-	        #if arr1[i] == arr1[a-1]:
-	        l1.append(i)
-	    for j in range(b+1,len(arr2)):
-	        if arr2[j] == arr2[b+1]:
-	            l2.append(j)
-	    print(l1,l2)
-	    for i in l1:
-	        for j in l2:
-	            ans.append([i,j])
-	    return ans
+def helper(arr1,arr2,a,b):
+    l1,l2,ans=[arr1[a][0]],[arr2[b][0]],[]
+    for i in range(a-1,-1,-1):
+        if arr1[i][1] == arr1[a][1]:
+            l1.append(arr1[i][0])
+    for j in range(b+1,len(arr2)):
+        if arr2[j][1] == arr2[b][1]:
+            l2.append(arr2[j][0])
+    print(l1,l2,"l1,l2")
+    for i in l1:
+        for j in l2:
+            ans.append([i,j])
+    return ans
 
 
-	def main():
-        arr1 = [[1,5000],[3,4000],[2,3000],[4,1000],[5,4000]]
-        arr2 = [[1,2000],[3,5000],[2,5000],[4,6000]]
-        k = 9000
-        a = self.twoSumClosest(arr1,arr2,k)
-        print(a)
+def main():
+    arr1 = [[1,5000],[3,4000],[2,3000],[4,1000],[5,4000]]
+    arr2 = [[1,2000],[3,5000],[2,5000],[4,6000]]
+    k = 9000
+    a = twoSumClosest(arr1,arr2,k)
+    print(a)
+    print("finished")
+    
+#[5,3],[5,2],[2,4],[3,2],[3,3]
+        
 main()
