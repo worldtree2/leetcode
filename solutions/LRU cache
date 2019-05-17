@@ -1,0 +1,41 @@
+from collections import OrderedDict     
+
+
+class LRUCache(object):
+
+    LRU,MRU = 0,0
+    position = {}
+    def __init__(self, capacity):
+        """
+        :type capacity: int
+        """
+        self.dict = OrderedDict()
+        self.maxLen = capacity
+        
+        
+
+    def get(self, key):
+        """
+        :type key: int
+        :rtype: int
+        """
+        if key in self.dict:
+            res = self.dict.pop(key)
+            self.dict[key] = res
+            return res
+        return -1
+
+    def put(self, key, value):
+        
+        if key in self.dict:
+            self.dict.pop(key)
+        self.dict[key] = value
+        
+        if len(self.dict) > self.maxLen:
+            self.dict.popitem(last=False)
+        """
+        :type key: int
+        :type value: int
+        :rtype: None
+        """
+        
