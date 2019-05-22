@@ -1,0 +1,63 @@
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param root: The root of binary tree.
+    @return: True if the binary tree is BST, or false
+    """
+    
+        
+    def isValidBST(self, root):
+        # write your code here
+        isBST, minNode, maxNode = self.divideConquer(root)
+        return isBST
+        
+    def divideConquer(self, root):
+        if root is None:
+            return True, None, None
+        
+        leftIsBST, leftMin, leftMax = self.divideConquer(root.left)
+        rightIsBST, rightMin, rightMax = self.divideConquer(root.right)
+        if not leftIsBST or not rightIsBST:
+            return False, None, None
+        if leftMax is not None and leftMax >= root.val:
+            return False, None, None
+        if rightMin is not None and rightMin <= root.val:
+            return False, None, None
+        
+        # is BST
+        minNode = leftMin if leftMin is not None else root.val
+        maxNode = rightMax if rightMax is not None else root.val
+        
+        return True, minNode, maxNode
+
+
+
+#Inorder raversal
+public class Solution {
+    // Keep the previous value in inorder traversal.
+    TreeNode pre = null;
+    
+    public boolean isValidBST(TreeNode root) {
+        // Traverse the tree in inorder.
+        if (root != null) {
+            // Inorder traversal: left first.
+            if (!isValidBST(root.left)) return false;
+            
+            // Compare it with the previous value in inorder traversal.
+            if (pre != null && root.val <= pre.val) return false;
+            
+            // Update the previous value.
+            pre = root;
+            
+            // Inorder traversal: right last.
+            return isValidBST(root.right);
+        }
+        return true;
+     }
