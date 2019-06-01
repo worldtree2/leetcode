@@ -1,0 +1,127 @@
+import time
+
+
+#A MeetingRoom class which maintains a calender and a meeting room id.
+class MeetingRoom(object):
+
+  def __init__(self,id):
+    self.id = id
+    self.calendar = []
+  
+  def book_room(self,start: int,end: int) -> None:
+    self.calendar.append([start,end])
+    self.calendar.sort(key = lambda item:item[0])
+  
+  def get_calendar(self) -> []:
+    return self.calendar
+
+  def get_id(self) -> int:
+  	return self.id
+
+
+
+#A MeetingScheduler class which validates the star and the end time format, and also used to find available room for selected time range. 
+class MeetingScheduler(object):
+
+  def __init__(self,capacity:int) -> None:
+    self.capacity = capacity
+    self.meeting_room = []
+    for i in range(1,capacity+1):
+      mr = MeetingRoom(i)
+      self.meeting_room.append(mr)
+ 
+
+  def find_room(self,start:int,end:int) -> None:
+    if start >= end:
+      print("Meeting duration is invalid.")
+      return -2
+
+    start_time = time.strftime("%d %b %Y %H:%M:%S", time.localtime(start))
+    end_time = time.strftime("%d %b %Y %H:%M:%S", time.localtime(end))
+
+    hours = start_time.split()[3]
+    minutes = hours.split(':')[1]
+  
+    if int(minutes)%5!=0:
+      	print("start time {} does not end on 5 minutes increments.".format(start_time))
+      	return -2
+
+    hours = end_time.split()[3]
+    minutes = hours.split(':')[1]
+
+    if int(minutes)%5!=0:
+      	print("End time {} does not end on 5 minutes increments.".format(end_time))
+      	return -2
+
+    duration = (end - start)//60
+
+    if duration<5 or duration > 7*24*60:
+    	print("Meeting duration {} minutes is invalid.".format(duration))
+    	return -2
+    
+    #Loop through each available rooms and check room availability.
+    for room in self.meeting_room:
+      calendar = room.get_calendar()
+      has_conflict = self.check_conflict(start,end,calendar)
+      if has_conflict == False:
+        room_id = room.get_id()
+        room.book_room(start,end)
+        print("Meeting Room {} is booked between {} and {}!".format(room.get_id(),start_time,end_time))
+        if start < time.time():
+          print("Warning: You've booked a time in the past!")
+        return room_id
+        
+    print("No available room for the selected time range.")
+    return -1
+
+  def check_conflict(self,start:int,end:int,calendar:[[int,int]]) -> bool:
+    length = len(calendar)
+    s,e = 0,length-1    
+    while s <= e:
+      mid = s + (e-s)//2
+      if calendar[mid][0] <= start <= calendar[mid][1] or calendar[mid][0] <= end <= calendar[mid][1] or (start<= calendar[mid][0] < calendar[mid][1] <= end):
+        return True
+      elif end < calendar[mid][0]:
+        e = mid -1
+      elif start > calendar[mid][1]:
+        s = mid + 1
+    return False
+      
+
+def main():
+  start_unix_time = 1558926605
+  end_unix_time =  1559099405
+  meeting_scheduler = MeetingScheduler(2)
+  meeting_scheduler.find_room(start_unix_time, end_unix_time)
+  start_unix_time = 1561177240
+  end_unix_time =  1561177840
+  meeting_scheduler.find_room(start_unix_time, end_unix_time)
+  start_unix_time = 1561177240
+  end_unix_time =  1561177840
+  meeting_scheduler.find_room(start_unix_time, end_unix_time)
+  start_unix_time = 1561177240
+  end_unix_time =  1561177840
+  meeting_scheduler.find_room(start_unix_time, end_unix_time)
+  start_unix_time = 1561177240
+  end_unix_time =  1561177840
+  meeting_scheduler.find_room(start_unix_time, end_unix_time)
+  start_unix_time = 1561177240
+  end_unix_time =  1561177840
+  meeting_scheduler.find_room(start_unix_time, end_unix_time)
+  start_unix_time = 1561177240
+  end_unix_time =  1561177840
+  meeting_scheduler.find_room(start_unix_time, end_unix_time)
+  start_unix_time = 1561177240
+  end_unix_time =  1561177840
+  meeting_scheduler.find_room(start_unix_time, end_unix_time)
+  start_unix_time = 1558926605
+  end_unix_time =  1558929605
+  print(meeting_scheduler.find_room(start_unix_time, end_unix_time))
+  start_unix_time = 1558926605
+  end_unix_time =  1558929605
+  print(meeting_scheduler.find_room(start_unix_time, end_unix_time))
+
+
+if __name__ == "__main__":
+	main()
+
