@@ -1,0 +1,20 @@
+#Given an array of integers, the majority number is the number that occurs more than half of the size of the array. Find it.
+
+class Solution:
+    """
+    @param: nums: a list of integers
+    @return: find a  majority number
+    """
+    def majorityNumber(self, nums):
+        majority_number = None
+        counter = 1
+        for i in nums:
+            if i == majority_number:
+                counter += 1
+            else:
+                counter -= 1
+                if counter == 0:
+                    majority_number = i
+                    counter = 1
+        return majority_number
+        # write your code here
