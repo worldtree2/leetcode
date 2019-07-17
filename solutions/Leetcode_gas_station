@@ -1,0 +1,40 @@
+#解题方法：
+#一开始用的是O(N^2)的brute force，不能AC。
+#于是换一种O(N的方法)：
+#有题目可知：
+#1、在第i个加油站时，gas[i] - cost[i] >= 0意味着车子可以从这个加油站经过，并且tank里可能剩油或者为空。
+#2、如果我们任意选择一个点start出发（也就是可以从第一个加油站出发），当走到A点时发现tank和A点的油加起来都不够走过A点，那么意味着我们从start点到A点之前的任意一个点出发，都不可能走过A点。
+#3、当出现以上情况时，如果车子能够循环跑一圈，意味着出发点必须在A点之后。此时应该把当前不够的油记录下来，让tank重置为0，即以A点以后的点为start继续跑，最后跑完（跑完最后一个加油站）看看tank里面剩下的油能不能把之前的坑填上，如果不能就返回-1，能就返回start。
+
+class Solution:
+    """
+    @param gas: An array of integers
+    @param cost: An array of integers
+    @return: An integer
+    """
+    def canCompleteCircuit(self, gas, cost):
+        
+        diff = list()
+        
+        for i in range(len(gas)):
+            diff.append(gas[i] - cost[i])
+        
+        remaining_gas = 0
+        owe_gas = 0
+        start = 0
+        
+        for i in range(len(gas)):
+            remaining_gas += diff[i]
+            if remaining_gas < 0:
+                if i + 1 < len(gas):
+                    start = i + 1
+                else:
+                    return -1
+                owe_gas += remaining_gas
+                remaining_gas = 0
+               
+        
+        if remaining_gas + owe_gas >= 0:
+            return start
+        
+        return -1
